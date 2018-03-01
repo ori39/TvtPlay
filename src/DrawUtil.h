@@ -15,9 +15,9 @@ enum FillDirection {
 bool Fill(HDC hdc,const RECT *pRect,COLORREF Color);
 bool FillGradient(HDC hdc,const RECT *pRect,COLORREF Color1,COLORREF Color2,
 				  FillDirection Direction=DIRECTION_HORZ);
-bool DrawMonoColorDIB(HDC hdcDst,int DstX,int DstY,
+bool DrawMonoColorDIB(HDC hdcDst,int DstX,int DstY,int dstWidth,int dstHeight,
 					  HDC hdcSrc,int SrcX,int SrcY,int Width,int Height,COLORREF Color);
-bool DrawMonoColorDIB(HDC hdcDst,int DstX,int DstY,
+bool DrawMonoColorDIB(HDC hdcDst,int DstX,int DstY,int dstWidth,int dstHeight,
 					  HBITMAP hbm,int SrcX,int SrcY,int Width,int Height,COLORREF Color);
 HBITMAP CreateDIB(int Width,int Height,int BitCount,void **ppBits=NULL);
 

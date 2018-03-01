@@ -35,9 +35,23 @@ bool CStatusItem::GetMenuPos(POINT *pPos, UINT *pFlags) const
 
 void CStatusItem::DrawIcon(HDC hdc, const RECT *pRect, HBITMAP hbm, int srcX, int srcY, int iconWidth, int iconHeight) const
 {
+    LONG rectWidth  = pRect->right - pRect->left;
+    LONG rectHeight = pRect->bottom - pRect->top;
+    LONG dstWidth   = iconWidth;
+    LONG dstHeight  = iconHeight;
+
+    if (rectWidth > iconWidth && rectHeight > iconHeight)
+    {
+        LONG scale = min(rectWidth/iconWidth, rectHeight/iconHeight);
+
+        dstWidth *= scale;
+        dstHeight *= scale;
+    }
+
     DrawUtil::DrawMonoColorDIB(hdc,
-        pRect->left + ((pRect->right - pRect->left) - iconWidth) / 2,
-        pRect->top + ((pRect->bottom - pRect->top) - iconHeight) / 2,
+        pRect->left + (rectWidth - dstWidth) / 2,
+        pRect->top + (rectHeight - dstHeight) / 2,
+        dstWidth, dstHeight,
         hbm, srcX, srcY, iconWidth, iconHeight, ::GetTextColor(hdc));
 }
 

@@ -71,7 +71,7 @@ bool FillGradient(HDC hdc,const RECT *pRect,COLORREF Color1,COLORREF Color2,
 
 
 // 単色で画像を描画する
-bool DrawMonoColorDIB(HDC hdcDst,int DstX,int DstY,
+bool DrawMonoColorDIB(HDC hdcDst,int DstX,int DstY,int dstWidth,int dstHeight,
 					  HDC hdcSrc,int SrcX,int SrcY,int Width,int Height,COLORREF Color)
 {
 	if (hdcDst==NULL || hdcSrc==NULL)
@@ -89,13 +89,13 @@ bool DrawMonoColorDIB(HDC hdcDst,int DstX,int DstY,
 	Palette[1].rgbRed=GetRValue(TransColor);
 	Palette[1].rgbReserved=0;
 	::SetDIBColorTable(hdcSrc,0,2,Palette);
-	::GdiTransparentBlt(hdcDst,DstX,DstY,Width,Height,
+	::GdiTransparentBlt(hdcDst,DstX,DstY,dstWidth,dstHeight,
 						hdcSrc,SrcX,SrcY,Width,Height,TransColor);
 	return true;
 }
 
 
-bool DrawMonoColorDIB(HDC hdcDst,int DstX,int DstY,
+bool DrawMonoColorDIB(HDC hdcDst,int DstX,int DstY,int dstWidth,int dstHeight,
 					  HBITMAP hbm,int SrcX,int SrcY,int Width,int Height,COLORREF Color)
 {
 	if (hdcDst==NULL || hbm==NULL)
@@ -106,7 +106,7 @@ bool DrawMonoColorDIB(HDC hdcDst,int DstX,int DstY,
 		return false;
 
 	HBITMAP hbmOld=static_cast<HBITMAP>(::SelectObject(hdcMem,hbm));
-	DrawMonoColorDIB(hdcDst,DstX,DstY,
+	DrawMonoColorDIB(hdcDst,DstX,DstY,dstWidth,dstHeight,
 					 hdcMem,SrcX,SrcY,Width,Height,Color);
 	::SelectObject(hdcMem,hbmOld);
 	::DeleteDC(hdcMem);
